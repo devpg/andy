@@ -22,6 +22,9 @@ import android.os.Build;
  * 
  * Supported HTTP request methods are GET, POST, PUT and DELETE.
  * 
+ * Pattern: application label/application version (platform code name; platform version code)
+ * Example: MyApp/1.0 (Froyo; 8)
+ * 
  * Samples: <code>
  * 			// Execute a tagged GET-request
  * 			ApplicationTaggedHttpMessageBuilder messageBuilder = new ApplicationTaggedHttpMessageBuilder(context);
@@ -54,7 +57,7 @@ public class ApplicationTaggedHttpMessageBuilder {
 		final ApplicationInfo appInfo = context.getApplicationInfo();
 		final PackageManager packageManager = context.getPackageManager();
 
-		// label and version of the application (e.g. "MyApp/1.0")
+		// label and version of the application
 		builder.append(packageManager.getApplicationLabel(appInfo).toString()).append("/");
 		builder.append(packageManager.getPackageInfo(context.getPackageName(), 0).versionCode);
 
