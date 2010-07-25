@@ -20,23 +20,25 @@ import android.os.Build;
  * implementations of <code>HttpMessage</code> and <code>HttpClient</code>
  * (Apache Commons HttpComponents) with an application specific user agent.
  * 
- * Supported HTTP request methods are GET, POST, PUT and DELETE.
+ * <p>
+ * 	Supported HTTP request methods: GET, POST, PUT and DELETE.<br />
+ * 	Pattern: application label/application version (platform code name; platform version code)<br />
+ * 	Example: MyApp/1.0 (Froyo; 8)
+ * </p>
  * 
- * Pattern: application label/application version (platform code name; platform version code)
- * Example: MyApp/1.0 (Froyo; 8)
+ * Samples: 
+ * <code>
+ * 	// Execute a tagged GET-request<br />
+ * 	ApplicationTaggedHttpMessageBuilder messageBuilder = new ApplicationTaggedHttpMessageBuilder(context);<br />
+ * 	HttpGet request = messageBuilder.createGetRequest();<br />
+ * 	request.setURI(new URI("http://www.devpg.com"));<br />
+ * 	HttpResponse response = new DefaultHttpClient().execute(request);<br /><br />
  * 
- * Samples: <code>
- * 			// Execute a tagged GET-request
- * 			ApplicationTaggedHttpMessageBuilder messageBuilder = new ApplicationTaggedHttpMessageBuilder(context);
- * 			HttpGet request = messageBuilder.createGetRequest();
- * 			request.setURI(new URI("http://www.devpg.com"));
- * 			HttpResponse response = new DefaultHttpClient().execute(request);
- * 
- * 			// Execute a GET-request with a tagged HTTP client
- * 			ApplicationTaggedHttpMessageBuilder messageBuilder = new ApplicationTaggedHttpMessageBuilder(context);
- * 			HttpGet request = new HttpGet("http://www.devpg.com");
- * 			HttpClient client= messageBuilder.createHttpClient();
- * 			HttpResponse response = client.execute(request);
+ * 	// Execute a GET-request with a tagged HTTP client<br />
+ * 	ApplicationTaggedHttpMessageBuilder messageBuilder = new ApplicationTaggedHttpMessageBuilder(context);<br />
+ * 	HttpGet request = new HttpGet("http://www.devpg.com");<br />
+ * 	HttpClient client= messageBuilder.createHttpClient();<br />
+ * 	HttpResponse response = client.execute(request);<br />
  * </code>
  * 
  * @author devpg
