@@ -22,7 +22,7 @@ import android.os.Build;
  * 
  * <p>
  * 	Supported HTTP request methods: GET, POST, PUT and DELETE.<br />
- * 	Pattern: application label/application version (platform code name; platform version code)<br />
+ * 	Pattern: application label/application version (platform code name; platform level)<br />
  * 	Example: MyApp/1.0 (Froyo; 8)
  * </p>
  * 

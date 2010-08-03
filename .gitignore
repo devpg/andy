@@ -1,3 +1,5 @@
-target/*
 .settings/*
-*.class
+*/.settings/*
+*/target/*
+*/bin/*
+R.java
