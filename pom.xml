@@ -15,6 +15,7 @@
 
 	<modules>
 		<module>commons</module>
+		<module>ar</module>
 		<module>test</module>
 	</modules>
 	
@@ -78,6 +79,7 @@
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>maven-android-plugin</artifactId>
+				<version>2.6.0</version>
 				<configuration>
 					<sdk>
 						<path>${env.ANDROID_HOME}</path>
@@ -88,6 +90,9 @@
 					</emulator>
 					<deleteConflictingFiles>true</deleteConflictingFiles>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
+					<sign>
+						<debug>false</debug>
+					</sign>
 				</configuration>
 				<extensions>true</extensions>
 			</plugin>

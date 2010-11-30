@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res/andy.ar"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+	<andy.ar.ui.views.PoiView android:id="@+id/poiView"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:keepScreenOn="true">
+
+
+		<andy.ar.ui.views.CameraView
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+	</andy.ar.ui.views.PoiView>
+
+</FrameLayout>
