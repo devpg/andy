@@ -29,9 +29,8 @@ public final class PoiView extends FrameLayout implements OnTouchListener {
 	}
 	
 	private ClickListener clickListener;
-	private float maxDistance;
 	private Orientation orientation;
-	private List<PoiMarking> markings = new ArrayList<PoiMarking>();
+	private List<PoiMarker> markers = new ArrayList<PoiMarker>();
 	private Location viewpoint;
 
 	public PoiView(Context context) {
@@ -50,7 +49,7 @@ public final class PoiView extends FrameLayout implements OnTouchListener {
 	protected void dispatchDraw(Canvas canvas) {
 		super.dispatchDraw(canvas);
 		
-		if(orientation == null || markings == null || markings.size() == 0) {
+		if(orientation == null || markers == null || markers.size() == 0) {
 			return;
 		}
 		
@@ -61,27 +60,16 @@ public final class PoiView extends FrameLayout implements OnTouchListener {
 		if (rightArm > 360)
 			rightArm -= 360;
 
-		for (PoiMarking marking: markings) {
-			//marking.draw(canvas, leftArm, rightArm, getPoiMarkingTopPosition(canvas, marking));
-			marking.draw(canvas, leftArm, rightArm, 30);
+		for (PoiMarker marking: markers) {
+			marking.draw(canvas, leftArm, rightArm);
 		}
-	}
-	
-	/*
-	 * Calculates the position of the poi marking from the top of
-	 * the canvas. The position is related to the poi distance.
-	 */
-	private int getPoiMarkingTopPosition(Canvas canvas, PoiMarking marking) {
-		float offset = marking.getDistance() / maxDistance;
-		offset = Math.min(offset, (float) 0.95);
-		return (int) (offset * canvas.getHeight());
 	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		if (clickListener != null && markings != null && event.getAction() == MotionEvent.ACTION_DOWN) {
-			for (int i = markings.size(); i > 0;) {
-				PoiMarking marking = markings.get(--i);
+		if (clickListener != null && markers != null && event.getAction() == MotionEvent.ACTION_DOWN) {
+			for (int i = markers.size(); i > 0;) {
+				PoiMarker marking = markers.get(--i);
 				if (marking.onTouch(v, event)) {
 					clickListener.onClick(marking.poi);
 					return Boolean.TRUE;
@@ -95,30 +83,25 @@ public final class PoiView extends FrameLayout implements OnTouchListener {
 		this.orientation = orientation;
 		postInvalidate();
 	}
-
+	
 	public void setViewpoint(Location location) {
 		viewpoint = location;
-		
-		if(markings == null) {
+		setViewpointInternal();
+	}
+	
+	public void setPoiMarkers(List<PoiMarker> pois) {
+		markers = pois;
+		setViewpointInternal();
+	}
+	
+	private void setViewpointInternal() {
+		if(markers == null) {
 			return;
 		}
-		for(PoiMarking marking : markings) {
-			marking.setViewpoint(location);
+		for(PoiMarker marking : markers) {
+			marking.setViewpoint(viewpoint);
 		}
 	}
 
-	public void setPois(List<Poi> pois) {
-		markings.clear();
-		
-		// determine max distance
-		maxDistance = 0;
-		for(Poi poi : pois) {
-			PoiMarking marking = new PoiMarking(poi, viewpoint);
-			markings.add(marking);
-			
-			if(marking.getDistance() > maxDistance) {
-				maxDistance = marking.getDistance();
-			}
-		}
-	}
+	
 }

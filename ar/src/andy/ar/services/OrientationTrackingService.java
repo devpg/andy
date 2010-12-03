@@ -22,6 +22,7 @@ public class OrientationTrackingService implements SensorEventListener {
 
 	private OrientationTracking trackingHandler;
 	private final OrientationHandler callbackHandler;
+	private boolean started = false;
 
 	private final SensorManager sensorManager;
 	private List<Sensor> sensors;
@@ -66,16 +67,22 @@ public class OrientationTrackingService implements SensorEventListener {
 		return sensors;
 	}
 
-	public void start() {
+	public final void start() {
 		for (Sensor sensor : sensors) {
 			sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
 		}
+		started = true;
 	}
 
-	public void stop() {
+	public final void stop() {
 		for (Sensor sensor : sensors) {
 			sensorManager.unregisterListener(this, sensor);
 		}
+		started = false;
+	}
+	
+	public final boolean isStarted() {
+		return started;
 	}
 
 	public void onAccuracyChanged(Sensor arg0, int arg1) {

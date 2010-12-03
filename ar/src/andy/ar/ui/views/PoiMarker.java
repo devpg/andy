@@ -5,12 +5,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.location.Location;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import andy.ar.domain.Poi;
 
-public class PoiMarking implements OnTouchListener {
+public class PoiMarker implements OnTouchListener {
 
 	private static final Paint markerPaint = new Paint();
 	static {
@@ -26,16 +27,21 @@ public class PoiMarking implements OnTouchListener {
 
 	final Poi poi;
 	private Rect marker;
-	private float azimuth;
-	private float distance;
+	private Float azimuth;
+	private Float distance;
 
-	PoiMarking(final Poi poi, Location viewPoint) {
+	public PoiMarker(final Poi poi) {
 		this.poi = poi;
-		setViewpoint(viewPoint);
 	}
 	
-	public void draw(Canvas canvas, float leftArm, float rightArm, int topPosition) {
+	public void draw(Canvas canvas, float leftArm, float rightArm) {
+		// optimization: do not continue when no viewpoint is set
+		if(azimuth == null || distance == null) {
+			return;
+		}
+		
 		int leftPosition = getLeft(leftArm, rightArm, canvas.getWidth());
+		int topPosition = 30;
 
 		canvas.drawLine(leftPosition, 0, leftPosition, canvas.getHeight(), markerPaint);
 		
@@ -96,9 +102,4 @@ public class PoiMarking implements OnTouchListener {
 		}
 		distance = viewpoint.distanceTo(poi.getLocation());
 	}
-	
-	float getDistance() {
-		return distance;
-	}
-
 }

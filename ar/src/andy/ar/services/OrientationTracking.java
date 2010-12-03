@@ -78,9 +78,9 @@ class CombinedSensorOrientationTracking extends OrientationTracking {
 			SensorManager.remapCoordinateSystem(rotation, SensorManager.AXIS_X, SensorManager.AXIS_Z, landscapeRotation);
 			SensorManager.getOrientation(landscapeRotation, deviceOrientation);
 
-			orientation.azimuth = (float) (Math.toDegrees(deviceOrientation[0]) + 270) % 360;
+			orientation.azimuth = (float) Math.toDegrees(deviceOrientation[0]);
 			orientation.pitch = (float) Math.toDegrees(deviceOrientation[1]);
-			orientation.roll = (float) (Math.toDegrees(deviceOrientation[2]) + 360) % 360;
+			orientation.roll = (float) Math.toDegrees(deviceOrientation[2]);
 
 			Log.d("andy", "Combined sensor tracking: " + orientation.azimuth + ", " + orientation.pitch + ", " + orientation.roll);
 
@@ -115,7 +115,7 @@ class SingleSensorOrientationTracking extends OrientationTracking {
 		orientation.roll = event.values[2];
 
 		Log.d("andy", "Single sensor tracking: " + orientation.azimuth + ", " + orientation.pitch + ", " + orientation.roll);
-
+ 
 		return orientation;
 	}
 

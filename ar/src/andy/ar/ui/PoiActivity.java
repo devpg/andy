@@ -1,5 +1,6 @@
 package andy.ar.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -13,6 +14,7 @@ import andy.ar.services.LocationTrackingService;
 import andy.ar.services.OrientationTrackingService;
 import andy.ar.services.LocationTrackingService.LocationHandler;
 import andy.ar.services.OrientationTrackingService.OrientationHandler;
+import andy.ar.ui.views.PoiMarker;
 import andy.ar.ui.views.PoiView;
 
 public abstract class PoiActivity extends Activity implements OrientationHandler, LocationHandler {
@@ -62,7 +64,6 @@ public abstract class PoiActivity extends Activity implements OrientationHandler
 	@Override
 	protected void onResume() {
 		super.onResume();
-		orientationService.start();
 		locationService.start();
 	}
 
@@ -76,7 +77,10 @@ public abstract class PoiActivity extends Activity implements OrientationHandler
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Toast.makeText(this, "new location detected", 3000);
+		// optimization: do not start orientation tracking until location is detected 
+		if(!orientationService.isStarted()) {
+			orientationService.start();
+		}
 		view.setViewpoint(location);
 	}
 
@@ -86,7 +90,15 @@ public abstract class PoiActivity extends Activity implements OrientationHandler
 	}
 	
 	protected void setPois(List<Poi> pois) {
-		view.setPois(pois);
+		List<PoiMarker> markers = new ArrayList<PoiMarker>();
+		for(Poi poi : pois) {
+			markers.add(createPoiMarker(poi));
+		}
+		view.setPoiMarkers(markers);
+	}
+	
+	protected PoiMarker createPoiMarker(Poi poi) {
+		return new PoiMarker(poi);
 	}
 	
 }
